@@ -1,0 +1,13 @@
+name = "PyTensorStore"
+uuid = "c6b2ce88-6a03-4336-b453-a8c964d638dc"
+authors = ["Mark Kittisopikul <kittisopikulm@janelia.hhmi.org> and contributors"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.10"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
