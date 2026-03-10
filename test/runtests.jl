@@ -78,4 +78,14 @@ using PythonCall
         @test w.schema isa PyTensorStore.SchemaWrapper
         @test w.schema.chunk_layout isa PyTensorStore.ChunkLayoutWrapper
     end
+
+    @testset "Context" begin
+        ctx_dict = Dict("cache_pool" => Dict("total_bytes_limit" => 10^6))
+        ctx = PyTensorStore.context(ctx_dict)
+        @test ctx isa PyTensorStore.ContextWrapper
+        
+        # Opening with context should work
+        w_ctx = PyTensorStore.open(spec_dict, context=ctx).result()
+        @test w_ctx isa PyTensorStore.TensorStoreWrapper
+    end
 end

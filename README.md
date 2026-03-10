@@ -4,7 +4,9 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaIO.github.io/PyTensorStore.jl/dev/)
 [![Build Status](https://github.com/JuliaIO/PyTensorStore.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaIO/PyTensorStore.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
-PyTensorStore.jl provides a wrapper around the Python package `tensorstore`. A future TensorStore.jl may wrap the C++ API directly.
+PyTensorStore.jl provides a wrapper around the Python package [tensorstore](https://google.github.io/tensorstore/). A future TensorStore.jl may wrap the C++ API directly.
+
+For more detailed information on the underlying library, see the [official TensorStore documentation](https://google.github.io/tensorstore/).
 
 This package is being primarily developed to test Zarr.jl.
 
@@ -16,6 +18,7 @@ This package is being primarily developed to test Zarr.jl.
     - Labeled indexing (e.g., `w[lat=1:10, lon=1:5]`).
     - Domain operations: `translate_by`, `translate_to`, and `label`.
 - **Transactions**: Atomic multi-write operations with an idiomatic Julia context manager.
+- **Contexts**: Share resources (like cache pools) across multiple TensorStore handles.
 - **Specs & Schemas**: Programmatic access to TensorStore `Spec`, `Schema`, and `ChunkLayout`.
 
 ## Usage
@@ -163,8 +166,21 @@ PyTensorStore.transaction() do txn
     w_txn[1, 1] = 42
     w_txn[2, 2] = 100
     # Changes are committed automatically when the block exits successfully.
-    # If an error occurs, the transaction is aborted.
 end
+```
+
+#### Contexts
+
+Contexts allow you to manage shared resources like cache pools:
+
+```julia
+# Create a context with a 1GB cache limit
+ctx = PyTensorStore.context(Dict(
+    "cache_pool" => Dict("total_bytes_limit" => 10^9)
+))
+
+# Use the context when opening a store
+w = PyTensorStore.open(spec, context=ctx).result()
 ```
 
 #### Domain Manipulation

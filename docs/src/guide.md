@@ -2,6 +2,8 @@
 
 This guide explains how to use `PyTensorStore.jl` to read and write multi-dimensional arrays.
 
+For advanced features and detailed documentation on the underlying library, refer to the [official TensorStore documentation](https://google.github.io/tensorstore/).
+
 ## Opening a Store
 
 To open a TensorStore, use the `PyTensorStore.open` function with a configuration dictionary (Spec). This returns a `FutureWrapper`, and you can use `.result()` to wait for the store to open.
@@ -56,6 +58,21 @@ PyTensorStore.transaction() do txn
     w_txn[1, 1] = 42
     w_txn[2, 2] = 100
 end
+```
+
+## Contexts
+
+TensorStore contexts allow for sharing resources like cache pools, authentication credentials, and concurrency limits between multiple store handles. For more details on available context resources, see the [official Context documentation](https://google.github.io/tensorstore/python/api/tensorstore.Context.html).
+
+```julia
+# Create a context with custom resource limits
+ctx = PyTensorStore.context(Dict(
+    "cache_pool" => Dict("total_bytes_limit" => 10^9), # 1 GB
+    "data_copy_concurrency" => Dict("limit" => 8)
+))
+
+# Open a store using this context
+w = PyTensorStore.open(spec, context=ctx).result()
 ```
 
 ## Domain Manipulation

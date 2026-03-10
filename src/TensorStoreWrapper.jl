@@ -71,6 +71,30 @@ end
 Base.parent(w::ChunkLayoutWrapper) = getfield(w, :parent)
 PythonCall.Py(w::ChunkLayoutWrapper) = parent(w)
 
+"""
+    ContextWrapper(parent::Py)
+
+A wrapper around a Python `tensorstore.Context` object.
+Used for sharing resources (like cache pools) between multiple TensorStore handles.
+"""
+struct ContextWrapper
+    parent::Py
+end
+Base.parent(w::ContextWrapper) = getfield(w, :parent)
+PythonCall.Py(w::ContextWrapper) = parent(w)
+
+"""
+    ContextSpecWrapper(parent::Py)
+
+A wrapper around a Python `tensorstore.Context.Spec` object.
+Represents the configuration for a `Context`.
+"""
+struct ContextSpecWrapper
+    parent::Py
+end
+Base.parent(w::ContextSpecWrapper) = getfield(w, :parent)
+PythonCall.Py(w::ContextSpecWrapper) = parent(w)
+
 function Base.propertynames(w::TensorStoreWrapper)
     propertynames(parent(w))
 end
@@ -290,6 +314,23 @@ function transaction(f::Function)
         abort(txn)
         rethrow()
     end
+end
+
+# ContextWrapper methods
+function Base.getproperty(ctx::ContextWrapper, sym::Symbol)
+    if sym == :spec
+        return ContextSpecWrapper(parent(ctx).spec)
+    else
+        return pyconvert(Any, getproperty(parent(ctx), sym))
+    end
+end
+
+function Base.show(io::IO, ctx::ContextWrapper)
+    print(io, "Context(...)")
+end
+
+function Base.show(io::IO, s::ContextSpecWrapper)
+    print(io, "ContextSpec(", pyconvert(Any, parent(s).to_json()), ")")
 end
 
 # Convert indices into TensorStoreWrapper into Python indexes

@@ -8,6 +8,10 @@ module Python
     
     transaction() = pyts().Transaction()
 
+    context(ctx::AbstractDict) = pyts().Context(pydict_recursive(ctx))
+    context(ctx::Py) = pyts().Context(ctx)
+    context() = pyts().Context()
+
     pydict_recursive(x) = x
     pydict_recursive(x::AbstractArray) = pylist(x)
     function pydict_recursive(x::AbstractDict)
