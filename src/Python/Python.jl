@@ -4,7 +4,10 @@ module Python
     pyts() = @pyconst(pyimport("tensorstore"))
 
     open(spec::Py; kwargs...) = pyts().open(spec; kwargs...)
-    open(spec::AbstractDict) = pyts().open(pydict_recursive(spec))
+    open(spec::AbstractDict; kwargs...) = pyts().open(pydict_recursive(spec); kwargs...)
+    
+    transaction() = pyts().Transaction()
+
     pydict_recursive(x) = x
     pydict_recursive(x::AbstractArray) = pylist(x)
     function pydict_recursive(x::AbstractDict)

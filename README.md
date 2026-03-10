@@ -6,6 +6,16 @@ PyTensorStore.jl provides a wrapper around the Python package `tensorstore`. A f
 
 This package is being primarily developed to test Zarr.jl.
 
+## Features
+
+- **Julia Array Interface**: Support for `size`, `ndims`, `eltype`, `axes`, and 1-based indexing.
+- **Read/Write Operations**: Synchronous and asynchronous read/write support.
+- **Indexing & Domain Manipulation**:
+    - Labeled indexing (e.g., `w[lat=1:10, lon=1:5]`).
+    - Domain operations: `translate_by`, `translate_to`, and `label`.
+- **Transactions**: Atomic multi-write operations with an idiomatic Julia context manager.
+- **Specs & Schemas**: Programmatic access to TensorStore `Spec`, `Schema`, and `ChunkLayout`.
+
 ## Usage
 
 ```julia-repl
@@ -124,4 +134,46 @@ Python: None
 julia> A[1,1].read().result()
 0-dimensional PyArray{UInt32, 0}:
 0x00000009
+```
+
+### Advanced Features
+
+#### Labeled Indexing
+
+If your TensorStore has dimension labels, you can index using keywords:
+
+```julia
+# Open with labels in schema
+spec["schema"] = Dict("domain" => Dict("labels" => ["x", "y"]))
+w = PyTensorStore.open(spec).result()
+
+# Index by dimension label
+sub_w = w[x=1:5, y=10:15]
+```
+
+#### Transactions
+
+Atomic multi-write operations can be performed using an idiomatic Julia context manager:
+
+```julia
+PyTensorStore.transaction() do txn
+    w_txn = w.with_transaction(txn)
+    w_txn[1, 1] = 42
+    w_txn[2, 2] = 100
+    # Changes are committed automatically when the block exits successfully.
+    # If an error occurs, the transaction is aborted.
+end
+```
+
+#### Domain Manipulation
+
+```julia
+# Shift the domain coordinate system
+shifted_w = PyTensorStore.translate_by(w, 10, 20)
+
+# Move the origin to a specific coordinate
+centered_w = PyTensorStore.translate_to(w, 1, 1)
+
+# Re-label dimensions
+labeled_w = PyTensorStore.label(w, "lat", "lon")
 ```
