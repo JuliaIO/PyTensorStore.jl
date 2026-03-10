@@ -20,6 +20,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/mkitti/PyTensorStore.jl",
+    repo="github.com/JuliaIO/PyTensorStore.jl",
     devbranch="main",
 )
