@@ -1,6 +1,8 @@
 # PyTensorStore
 
-[![Build Status](https://github.com/mkitti/PyTensorStore.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/mkitti/PyTensorStore.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaIO.github.io/PyTensorStore.jl/stable/)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaIO.github.io/PyTensorStore.jl/dev/)
+[![Build Status](https://github.com/JuliaIO/PyTensorStore.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/mkitti/PyTensorStore.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
 PyTensorStore.jl provides a wrapper around the Python package `tensorstore`. A future TensorStore.jl may wrap the C++ API directly.
 

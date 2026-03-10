@@ -4,7 +4,7 @@ CurrentModule = PyTensorStore
 
 # PyTensorStore
 
-[PyTensorStore.jl](https://github.com/mkitti/PyTensorStore.jl) provides a Julia wrapper around the Google [TensorStore](https://google.github.io/tensorstore/) Python API. TensorStore is a library for efficiently reading and writing large multi-dimensional arrays, supporting various storage backends like Zarr, N5, and Google Cloud Storage.
+[PyTensorStore.jl](https://github.com/JuliaIO/PyTensorStore.jl) provides a Julia wrapper around the Google [TensorStore](https://google.github.io/tensorstore/) Python API. TensorStore is a library for efficiently reading and writing large multi-dimensional arrays, supporting various storage backends like Zarr, N5, and Google Cloud Storage.
 
 ## Contents
 
