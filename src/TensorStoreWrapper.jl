@@ -152,8 +152,7 @@ end
 Base.size(w::TensorStoreWrapper) = pyconvert(Tuple, parent(w).shape)
 function Base.size(w::TensorStoreWrapper, d::Integer)
     d < 1 && throw(ArgumentError("dimension must be ≥ 1"))
-    sz = size(w)
-    return d <= length(sz) ? sz[d] : 1
+    return d <= ndims(w) ? size(w)[d] : 1
 end
 Base.ndims(w::TensorStoreWrapper) = pyconvert(Int, parent(w).rank)
 
@@ -235,8 +234,7 @@ end
 Base.size(w::IndexDomainWrapper) = pyconvert(Tuple, parent(w).shape)
 function Base.size(w::IndexDomainWrapper, d::Integer)
     d < 1 && throw(ArgumentError("dimension must be ≥ 1"))
-    sz = size(w)
-    return d <= length(sz) ? sz[d] : 1
+    return d <= ndims(w) ? size(w)[d] : 1
 end
 Base.ndims(w::IndexDomainWrapper) = pyconvert(Int, parent(w).rank)
 function Base.axes(w::IndexDomainWrapper)

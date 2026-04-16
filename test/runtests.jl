@@ -26,6 +26,7 @@ using PythonCall
         @test size(w, 1) == 10
         @test size(w, 2) == 20
         @test size(w, 3) == 1
+        @test_throws ArgumentError size(w, 0)
         @test axes(w) == (1:10, 1:20)
     end
 
@@ -50,6 +51,7 @@ using PythonCall
         @test size(domain, 1) == 10
         @test size(domain, 2) == 20
         @test size(domain, 3) == 1
+        @test_throws ArgumentError size(domain, 0)
         @test axes(sub_w) == (1:5, 11:15)
         
         # translate_by
