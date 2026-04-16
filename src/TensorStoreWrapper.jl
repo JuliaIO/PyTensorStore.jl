@@ -150,7 +150,11 @@ function Base.setindex!(w::TensorStoreWrapper, v, indices...; kwargs...)
 end
 
 Base.size(w::TensorStoreWrapper) = pyconvert(Tuple, parent(w).shape)
-Base.size(w::TensorStoreWrapper, d::Integer) = d <= ndims(w) ? size(w)[d] : 1
+function Base.size(w::TensorStoreWrapper, d::Integer)
+    d < 1 && throw(ArgumentError("dimension must be ≥ 1"))
+    sz = size(w)
+    return d <= length(sz) ? sz[d] : 1
+end
 Base.ndims(w::TensorStoreWrapper) = pyconvert(Int, parent(w).rank)
 
 const TS_TYPE_MAP = Dict(
