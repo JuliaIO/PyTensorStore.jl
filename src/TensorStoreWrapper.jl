@@ -233,7 +233,11 @@ end
 
 # IndexDomainWrapper methods
 Base.size(w::IndexDomainWrapper) = pyconvert(Tuple, parent(w).shape)
-Base.size(w::IndexDomainWrapper, d::Integer) = d <= ndims(w) ? size(w)[d] : 1
+function Base.size(w::IndexDomainWrapper, d::Integer)
+    d < 1 && throw(ArgumentError("dimension must be ≥ 1"))
+    sz = size(w)
+    return d <= length(sz) ? sz[d] : 1
+end
 Base.ndims(w::IndexDomainWrapper) = pyconvert(Int, parent(w).rank)
 function Base.axes(w::IndexDomainWrapper)
     rank = ndims(w)
