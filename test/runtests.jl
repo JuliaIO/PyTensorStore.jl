@@ -49,9 +49,9 @@ using PythonCall
         sub_w = w[x=1:5, y=11:15]
         @test size(sub_w) == (5, 5)
         @test axes(sub_w) == (1:5, 11:15)
-        @test firstindex(domain, 1) == 1
-        @test lastindex(domain, 1) == 10
-        @test lastindex(domain, 2) == 20
+        @test firstindex(sub_w, 1) == 1
+        @test lastindex(sub_w, 1) == 5
+        @test lastindex(sub_w, 2) == 15
         
         # translate_by
         tw = PyTensorStore.translate_by(w, 10, 20)

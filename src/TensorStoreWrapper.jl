@@ -239,8 +239,8 @@ function Base.axes(w::IndexDomainWrapper)
     return Tuple((min_indices[i]+1):max_indices[i] for i in 1:rank)
 end
 Base.axes(w::IndexDomainWrapper, d::Integer) = axes(w)[d]
-Base.firstindex(w::TensorStoreWrapper, d::Integer) = first(axes(w, d))
-Base.lastindex(w::TensorStoreWrapper, d::Integer) = last(axes(w, d))
+Base.firstindex(w::IndexDomainWrapper, d::Integer) = first(axes(w, d))
+Base.lastindex(w::IndexDomainWrapper, d::Integer) = last(axes(w, d))
 
 """
     labels(w::IndexDomainWrapper) -> Vector{String}
