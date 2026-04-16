@@ -150,6 +150,7 @@ function Base.setindex!(w::TensorStoreWrapper, v, indices...; kwargs...)
 end
 
 Base.size(w::TensorStoreWrapper) = pyconvert(Tuple, parent(w).shape)
+Base.size(w::TensorStoreWrapper, d::Integer) = d <= ndims(w) ? size(w)[d] : 1
 Base.ndims(w::TensorStoreWrapper) = pyconvert(Int, parent(w).rank)
 
 const TS_TYPE_MAP = Dict(
@@ -228,6 +229,7 @@ end
 
 # IndexDomainWrapper methods
 Base.size(w::IndexDomainWrapper) = pyconvert(Tuple, parent(w).shape)
+Base.size(w::IndexDomainWrapper, d::Integer) = d <= ndims(w) ? size(w)[d] : 1
 Base.ndims(w::IndexDomainWrapper) = pyconvert(Int, parent(w).rank)
 function Base.axes(w::IndexDomainWrapper)
     rank = ndims(w)
