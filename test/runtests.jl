@@ -24,6 +24,10 @@ using PythonCall
         @test ndims(w) == 2
         @test size(w) == (10, 20)
         @test axes(w) == (1:10, 1:20)
+        @test firstindex(w, 1) == 1
+        @test lastindex(w, 1) == 10
+        @test lastindex(w, 2) == 20
+
     end
 
     @testset "Write & Read Operations" begin
@@ -45,6 +49,9 @@ using PythonCall
         sub_w = w[x=1:5, y=11:15]
         @test size(sub_w) == (5, 5)
         @test axes(sub_w) == (1:5, 11:15)
+        @test firstindex(domain, 1) == 1
+        @test lastindex(domain, 1) == 10
+        @test lastindex(domain, 2) == 20
         
         # translate_by
         tw = PyTensorStore.translate_by(w, 10, 20)

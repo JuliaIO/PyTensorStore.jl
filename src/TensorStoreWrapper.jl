@@ -187,6 +187,9 @@ function Base.axes(w::TensorStoreWrapper)
     max_indices = pyconvert(Vector{Int}, domain.exclusive_max)
     return Tuple((min_indices[i]+1):max_indices[i] for i in 1:rank)
 end
+Base.axes(w::TensorStoreWrapper, d::Integer) = axes(w)[d]
+Base.firstindex(w::TensorStoreWrapper, d::Integer) = first(axes(w, d))
+Base.lastindex(w::TensorStoreWrapper, d::Integer) = last(axes(w, d))
 
 function Base.show(io::IO, w::TensorStoreWrapper)
     print(io, "TensorStore(", eltype(w), ", rank=", ndims(w), ", shape=", size(w), ")")
@@ -235,6 +238,9 @@ function Base.axes(w::IndexDomainWrapper)
     max_indices = pyconvert(Vector{Int}, parent(w).exclusive_max)
     return Tuple((min_indices[i]+1):max_indices[i] for i in 1:rank)
 end
+Base.axes(w::IndexDomainWrapper, d::Integer) = axes(w)[d]
+Base.firstindex(w::TensorStoreWrapper, d::Integer) = first(axes(w, d))
+Base.lastindex(w::TensorStoreWrapper, d::Integer) = last(axes(w, d))
 
 """
     labels(w::IndexDomainWrapper) -> Vector{String}
