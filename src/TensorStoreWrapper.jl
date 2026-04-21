@@ -152,7 +152,8 @@ end
 Base.size(w::TensorStoreWrapper) = pyconvert(Tuple, parent(w).shape)
 function Base.size(w::TensorStoreWrapper, d::Integer)
     d < 1 && throw(ArgumentError("dimension must be ≥ 1"))
-    return d <= ndims(w) ? size(w)[d] : 1
+    di = Base.to_index(d)
+    return di <= ndims(w) ? size(w)[di] : 1
 end
 Base.ndims(w::TensorStoreWrapper) = pyconvert(Int, parent(w).rank)
 
