@@ -28,6 +28,10 @@ using PythonCall
         @test size(w, 3) == 1
         @test_throws ArgumentError size(w, 0)
         @test axes(w) == (1:10, 1:20)
+        @test firstindex(w, 1) == 1
+        @test lastindex(w, 1) == 10
+        @test lastindex(w, 2) == 20
+        @test size(w[begin:2:end, begin:2:end]) == (5,10)
     end
 
     @testset "Write & Read Operations" begin
@@ -53,6 +57,10 @@ using PythonCall
         @test size(domain, 3) == 1
         @test_throws ArgumentError size(domain, 0)
         @test axes(sub_w) == (1:5, 11:15)
+        @test firstindex(sub_w, 1) == 1
+        @test lastindex(sub_w, 1) == 5
+        @test lastindex(sub_w, 2) == 15
+        @test size(sub_w[begin:2:end, begin:2:end]) == (3,3)
         
         # translate_by
         tw = PyTensorStore.translate_by(w, 10, 20)
